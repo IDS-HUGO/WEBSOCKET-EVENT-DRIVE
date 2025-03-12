@@ -44,18 +44,13 @@ func (h *Hub) HandleConnections(w http.ResponseWriter, r *http.Request) {
 			delete(h.Clients, conn)
 			break
 		}
-
-		// Log de los mensajes que recibe el servidor
 		log.Printf("Mensaje recibido de %s: %s", conn.RemoteAddr(), msg)
 
-		// Aquí podrías procesar el mensaje recibido
-		// Por ejemplo, podrías hacer algo con el mensaje antes de enviarlo de vuelta.
 	}
 }
 
-// Enviar un mensaje a todos los clientes conectados
 func (h *Hub) BroadcastMessage(message string) {
-	log.Printf("Broadcasting message: %s", message) // Log del mensaje que se va a enviar
+	log.Printf("Broadcasting message: %s", message)
 
 	for client := range h.Clients {
 		err := client.WriteMessage(websocket.TextMessage, []byte(message))
